@@ -201,6 +201,16 @@ Vue.component('product', {
                 <div>
                     <product-tabs :reviews="reviews" :shipping-cost="shipping" :details="details"></product-tabs>
                 </div>
+                <div>
+                    <h2>Sales Count:</h2>
+                    <p v-if="salesCount > 0">Total sales: {{ salesCount }}</p>
+                    <p v-else>No sales yet.</p>
+                </div>
+                <div>
+                    <h2>Average Rating:</h2>
+                    <p v-if="averageRating > 0">Average Rating: {{ averageRating.toFixed(1) }} / 5</p>
+                    <p v-else>No ratings yet.</p>
+                </div>
             </div>
             `,
     data() {
@@ -230,13 +240,15 @@ Vue.component('product', {
                 }
             ],
             sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'], // Доступные размеры
-            cart: [] // Корзина для хранения добавленных товаров
+            cart: [], // Корзина для хранения добавленных товаров
+            salesCount: 0 // Количество продаж
         }
     },
     methods: {
         addToCart() {
             // Добавляем товар в корзину
             this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId);
+            this.salesCount++; // Увеличиваем количество продаж
         },
         removeFromCart() {
             // Удаляем товар из корзины
@@ -279,6 +291,14 @@ Vue.component('product', {
         shipping() {
             // Возвращаем стоимость доставки в зависимости от статуса премиум-клиента
             return this.premium ? "Free" : "2.99";
+        },
+        averageRating() {
+            // Вычисляем средний рейтинг
+            if (this.reviews.length === 0) {
+                return 0; // Если нет отзывов, возвращаем 0
+            }
+            const totalRating = this.reviews.reduce((sum, review) => sum + review.rating, 0);
+            return totalRating / this.reviews.length; // Возвращаем средний рейтинг
         }
     }
 });
