@@ -105,7 +105,7 @@ Vue.component('product', {
         }
     },
     template: `
-    <div class="product">
+   <div class="product">
         <div class="product-image">
             <img :src="image" :alt="altText"/>
         </div>
@@ -114,8 +114,9 @@ Vue.component('product', {
             <p>{{ description }}</p>
             <a v-bind:href="link">More products like this</a>
             <p v-if="inStock">In stock</p>
-            <p v-else style="text-decoration:line-through ">Out of Stock</p>
-            <span v-if="onSale">On Sale</span>
+            <p v-else style="text-decoration: line-through">Out of Stock</p>
+            <span v-if="onSale"> On Sale </span>
+            <br><br>
             <p>{{ sale }}</p>
             <product-details :details="details"></product-details>
             <p>Shipping: {{ shipping }}</p>
@@ -239,6 +240,15 @@ let app = new Vue({
             if (this.cart.length > 0) {
                 this.cart.pop(id);
             }
+        },
+        updateCart(id)  {
+            console.log('asd')
+            this.cart.push(id)
+        },
+        updateRemoveFromCart(id) {
+            if (this.cart.length > 0) {
+                this.cart.pop(id);
+            }
         }
     }
-});
+})
