@@ -176,8 +176,6 @@ Vue.component('product', {
                     <span v-if="onSale"> On Sale </span>
                     <br><br>
                     <p>{{ sale }}</p>
-                    <product-details :details="details"></product-details>
-                    <p>Shipping: {{ shipping }}</p>
                     <div
                         class="color-box"
                         v-for="(variant, index) in variants"
